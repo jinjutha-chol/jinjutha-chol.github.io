@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[COMPANY NAME] &mdash; Company Overview</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="nav-brand" href="index.html">[COMPANY <span>NAME</span>]</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>[Company Name] &mdash; [One-line tagline goes here]</h1>
+    <p>[Short 1&ndash;2 sentence description of what the company does and who it serves. Replace this placeholder with your real value proposition.]</p>
+  </div>
+</section>
+
+<div class="placeholder-note">
+  This is a placeholder demo site. Every bracketed [LABEL] is sample content &mdash; see CONTENT_GUIDE.md in the repo for exactly where to edit each piece.
+</div>
+
+<!-- ===================== SECTION 1: COMPANY OVERVIEW ===================== -->
+<section id="overview">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Company Overview</span>
+      <h2>Sectors We&rsquo;ve Worked In</h2>
+      <p>[Optional intro paragraph: summarize your firm&rsquo;s history, mission, or breadth of experience across industries.]</p>
+    </div>
+
+    <div class="grid">
+      <div class="card sector-card">
+        <div class="sector-icon">01</div>
+        <h3>[Sector 1 &ndash; e.g. Healthcare]</h3>
+        <p>[Optional one-line note about your work in this sector.]</p>
+      </div>
+      <div class="card sector-card">
+        <div class="sector-icon">02</div>
+        <h3>[Sector 2 &ndash; e.g. Technology]</h3>
+        <p>[Optional one-line note about your work in this sector.]</p>
+      </div>
+      <div class="card sector-card">
+        <div class="sector-icon">03</div>
+        <h3>[Sector 3 &ndash; e.g. Financial Services]</h3>
+        <p>[Optional one-line note about your work in this sector.]</p>
+      </div>
+      <div class="card sector-card">
+        <div class="sector-icon">04</div>
+        <h3>[Sector 4 &ndash; e.g. Consumer &amp; Retail]</h3>
+        <p>[Optional one-line note about your work in this sector.]</p>
+      </div>
+      <div class="card sector-card">
+        <div class="sector-icon">05</div>
+        <h3>[Sector 5 &ndash; e.g. Industrials]</h3>
+        <p>[Optional one-line note about your work in this sector.]</p>
+      </div>
+      <div class="card sector-card">
+        <div class="sector-icon">06</div>
+        <h3>[Sector 6 &ndash; e.g. Real Estate]</h3>
+        <p>[Optional one-line note about your work in this sector.]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 2: SERVICES ===================== -->
+<section id="services" class="section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">What We Do</span>
+      <h2>Our Services</h2>
+      <p>Click a service to see past experience, transaction size range, and the value we add.</p>
+    </div>
+
+    <div class="grid">
+      <a class="card service-card" href="services/service-1.html">
+        <h3>[Service Name 1]</h3>
+        <p>[Brief 1&ndash;2 sentence description of this service.]</p>
+        <span class="service-link">View details</span>
+      </a>
+      <a class="card service-card" href="services/service-2.html">
+        <h3>[Service Name 2]</h3>
+        <p>[Brief 1&ndash;2 sentence description of this service.]</p>
+        <span class="service-link">View details</span>
+      </a>
+      <a class="card service-card" href="services/service-3.html">
+        <h3>[Service Name 3]</h3>
+        <p>[Brief 1&ndash;2 sentence description of this service.]</p>
+        <span class="service-link">View details</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECTION 3: CONTACT ===================== -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Get In Touch</span>
+      <h2>Contact Us</h2>
+      <p>[Optional short line inviting visitors to reach out.]</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="card contact-card">
+        <span class="contact-label">Email</span>
+        <span class="contact-value">info@[company-domain].com</span>
+      </div>
+      <div class="card contact-card">
+        <span class="contact-label">Phone</span>
+        <span class="contact-value">+1 (555) 000-0000</span>
+      </div>
+      <div class="card contact-card">
+        <span class="contact-label">Address</span>
+        <span class="contact-value">[123 Main Street, City, State, ZIP]</span>
+      </div>
+    </div>
+
+    <div class="social-links">
+      <a href="#">LinkedIn</a>
+      <a href="#">Twitter / X</a>
+      <a href="mailto:info@[company-domain].com">Email Us</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  &copy; <span id="year"></span> [Company Name]. All rights reserved.
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
