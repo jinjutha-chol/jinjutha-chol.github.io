@@ -270,6 +270,54 @@ section {
   content: " \2192";
 }
 
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.tag-accent {
+  background: rgba(201, 163, 90, 0.15);
+  border-color: rgba(201, 163, 90, 0.35);
+  color: var(--color-accent-dark);
+}
+
+.service-card .range {
+  display: block;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.detail-hero .tag-row {
+  margin: 18px 0 0;
+}
+
+.detail-hero .tag {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #e6e9ef;
+}
+
+.detail-hero .tag-accent {
+  background: rgba(201, 163, 90, 0.25);
+  border-color: rgba(201, 163, 90, 0.5);
+  color: #f3e2bd;
+}
+
 /* ---------- Contact ---------- */
 .contact-grid {
   display: grid;
