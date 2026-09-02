@@ -1,0 +1,34 @@
+---
+interface Props {
+  name: string
+  class?: string
+}
+const { name, class: className } = Astro.props
+
+// 24x24 stroke icons, drawn inline so there is no icon-font or sprite request.
+const paths: Record<string, string> = {
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  code: '<path d="m8 6-6 6 6 6M16 6l6 6-6 6"/>',
+  cloud:
+    '<path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97 6 6 0 0 0-11.66-1.4A4 4 0 0 0 6.5 19Z"/>',
+  shield: '<path d="M12 3 4 6v6c0 5 3.4 8.2 8 9 4.6-.8 8-4 8-9V6Z"/><path d="m9 12 2 2 4-4"/>',
+  spark: '<path d="M12 2v5M12 17v5M4.2 4.2l3.6 3.6M16.2 16.2l3.6 3.6M2 12h5M17 12h5M4.2 19.8l3.6-3.6M16.2 7.8l3.6-3.6"/>',
+  layers: '<path d="m12 2 9 5-9 5-9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
+}
+const d = paths[name] ?? paths.spark
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  set:html={d}
+/>

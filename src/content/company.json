@@ -1,0 +1,21 @@
+{
+  "name": "XSpring",
+  "tagline": "Engineering partners for teams that ship",
+  "intro": "XSpring designs, builds and runs the systems modern companies depend on. We work as an embedded partner — planning alongside your team, shipping in short cycles, and staying accountable for what we put into production.",
+  "stats": [
+    { "value": "12+", "label": "Years in business" },
+    { "value": "80+", "label": "Projects delivered" },
+    { "value": "24/7", "label": "Support coverage" },
+    { "value": "99.9%", "label": "Uptime commitment" }
+  ],
+  "about": "We started XSpring because good software rarely fails for technical reasons — it fails when delivery, operations and the business stop talking to each other. Our teams are deliberately small, senior and cross-functional, so the people designing a system are the ones who run it. That keeps decisions honest and handovers short.\n\nWe work across discovery, delivery and long-term operation. Some clients bring us in for a single build; most stay on for the years that follow.",
+  "contact": {
+    "email": "hello@xspring.example",
+    "phone": "+66 2 000 0000",
+    "address": "Bangkok, Thailand"
+  },
+  "links": [
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/" },
+    { "label": "GitHub", "url": "https://github.com/" }
+  ]
+}

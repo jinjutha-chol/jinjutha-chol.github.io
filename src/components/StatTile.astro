@@ -1,0 +1,37 @@
+---
+interface Props {
+  value: string
+  label: string
+}
+const { value, label } = Astro.props
+---
+
+<div class="tile">
+  <!-- Proportional figures, not tabular: these are standalone display values,
+       not a column that has to align vertically. -->
+  <div class="value">{value}</div>
+  <div class="label">{label}</div>
+</div>
+
+<style>
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .value {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .label {
+    margin-top: 6px;
+    font-size: 0.875rem;
+    color: var(--ink-secondary);
+  }
+</style>

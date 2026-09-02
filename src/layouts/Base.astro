@@ -1,0 +1,160 @@
+---
+import '../styles/global.css'
+import company from '../content/company.json'
+
+interface Props {
+  title?: string
+  description?: string
+}
+const { title, description } = Astro.props
+
+const pageTitle = title ? `${title} — ${company.name}` : `${company.name} — ${company.tagline}`
+const pageDescription = description ?? company.intro
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
+
+const nav = [
+  { label: 'Services', href: '#services' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+]
+const year = new Date().getFullYear()
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light dark" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href="/">
+          <span class="mark" aria-hidden="true">X</span>
+          <span class="brand-name">{company.name}</span>
+        </a>
+        <nav aria-label="Primary">
+          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <p>© {year} {company.name}. All rights reserved.</p>
+        {
+          company.links.length > 0 && (
+            <p class="foot-links">
+              {company.links.map((l) => (
+                <a href={l.url} rel="noopener noreferrer" target="_blank">
+                  {l.label}
+                </a>
+              ))}
+            </p>
+          )
+        }
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--page) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: 64px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: var(--accent-solid);
+    color: var(--on-accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  nav {
+    display: flex;
+    gap: 24px;
+    font-size: 0.9375rem;
+  }
+
+  nav a {
+    color: var(--ink-secondary);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 560px) {
+    .brand-name {
+      display: none;
+    }
+    nav {
+      gap: 16px;
+    }
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface-sunken);
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 28px;
+    font-size: 0.875rem;
+    color: var(--ink-secondary);
+  }
+
+  .foot-links {
+    display: flex;
+    gap: 20px;
+  }
+</style>

@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Deploy whenever content or code lands on main.
+  push:
+    branches: [main]
+  # ...and allow a manual run from the Actions tab.
+  workflow_dispatch:
+
+# Allow this workflow to publish to Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Build
+        uses: withastro/action@v6
+        env:
+          # Drops the Keystatic admin routes so the build is fully static.
+          # `npm run build` sets this too; kept here so a manual build is safe.
+          SKIP_KEYSTATIC: 'true'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

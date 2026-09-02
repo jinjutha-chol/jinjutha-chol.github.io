@@ -1,0 +1,97 @@
+---
+import ServiceIcon from './ServiceIcon.astro'
+
+interface Props {
+  title: string
+  icon: string
+  summary: string
+  highlights: string[]
+}
+const { title, icon, summary, highlights } = Astro.props
+---
+
+<article class="card">
+  <span class="icon"><ServiceIcon name={icon} /></span>
+  <h3 class="title">{title}</h3>
+  <p class="summary">{summary}</p>
+  {
+    highlights.length > 0 && (
+      <ul class="highlights">
+        {highlights.map((h) => (
+          <li>{h}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-wash);
+    color: var(--accent-text);
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: 1.125rem;
+    font-weight: 650;
+  }
+
+  .summary {
+    margin-top: 8px;
+    margin-bottom: auto;
+    color: var(--ink-secondary);
+    font-size: 0.9375rem;
+  }
+
+  .highlights {
+    /* Push to the card's bottom so the divider lines up across a row even when
+       summaries run to different lengths. */
+    margin: 16px 0 0;
+    align-self: stretch;
+    padding: 16px 0 0;
+    border-top: 1px solid var(--hairline);
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: var(--ink-secondary);
+  }
+
+  .highlights li {
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+</style>

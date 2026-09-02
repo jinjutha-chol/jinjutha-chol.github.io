@@ -1,0 +1,11 @@
+{
+  "title": "Systems integration",
+  "icon": "layers",
+  "summary": "Connecting the tools you already pay for, so data moves between them without a person copying it across.",
+  "highlights": [
+    "Third-party and ERP integration",
+    "Workflow automation",
+    "Migration and data cleanup"
+  ],
+  "order": 50
+}
