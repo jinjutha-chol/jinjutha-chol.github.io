@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "./start-editor.sh",
+    "publish": "./publish.sh",
     "dev": "astro dev",
     "build": "SKIP_KEYSTATIC=true astro build",
     "preview": "SKIP_KEYSTATIC=true astro preview",

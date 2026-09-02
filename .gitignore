@@ -3,3 +3,7 @@ dist/
 .astro/
 .DS_Store
 *.log
+
+# Logs written by the start/publish helper scripts
+.editor.log
+.build.log

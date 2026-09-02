@@ -1,78 +1,87 @@
 # XSpring — company site
 
-A company introduction and services page. Content is edited locally through a
-browser UI, saved into this repo as JSON, then built into a fully static site and
-published to GitHub Pages.
+A company introduction and services page. Content is edited in a local admin
+console, then published to GitHub Pages as a static site with one click.
 
-**Astro** (static site) + **Keystatic** (local content editor) + **GitHub Actions**.
+**Astro** (static site) + **Keystatic** (admin console) + **GitHub Actions** (publishing).
 
 ---
 
-## How the editing loop works
+# For whoever edits the content
+
+You do not need to know any code. There are two steps.
+
+### 1. Edit
+
+Double-click **Edit Website** on the Desktop.
+
+A browser tab opens with the admin console. Two sections in the sidebar:
+
+| Section | What you can change |
+|---|---|
+| **Company profile** | Company name, tagline, introduction, key figures, about text, contact details, footer links |
+| **Services** | The service cards — add, remove, reorder, or edit any of them |
+
+Fill in the boxes and press **Save** (top right). Saving stores the change on
+this computer — the live website has not changed yet.
+
+To see how it looks, open <http://localhost:4321>.
+
+### 2. Publish
+
+When you're happy, double-click **Publish Website** on the Desktop.
+
+It checks the site still works, then puts your changes online. The live site
+updates a minute or two later.
+
+If something is wrong it tells you and publishes nothing, so a mistake cannot
+take the site down.
+
+### If something looks wrong
+
+Every publish is saved separately, so any change can be undone. Ask whoever set
+the site up — nothing is ever lost.
+
+---
+
+# For whoever set this up
+
+## How it works
 
 ```
-npm run dev  →  edit at /keystatic  →  saves JSON into src/content/
-                                              ↓
-                                    git commit && git push
-                                              ↓
+./start-editor.sh   →  admin console at /keystatic  →  writes JSON in src/content/
+                                                              ↓
+./publish.sh        →  build check  →  commit  →  push
+                                                              ↓
                               GitHub Action builds → GitHub Pages
 ```
 
-The editor runs **only on your machine**. It needs a server to write files, and
-GitHub Pages serves static files only — so the published site has no editor and no
-admin route. That is intentional, not a limitation to work around.
+The admin console runs **only on that machine**. It needs a server to write files,
+and GitHub Pages serves static files only — so the published site has no console
+and no admin route. That is intentional.
 
-Every content change is a normal commit, so you get full history and can roll back
-any edit with `git revert`.
-
----
-
-## Editing content
-
-```bash
-npm install          # first time only
-npm run dev
-```
-
-Then open **<http://localhost:4321/keystatic>**.
-
-| Screen | Edits | Writes to |
-|---|---|---|
-| Company profile | name, tagline, intro, key figures, about, contact, links | `src/content/company.json` |
-| Services | one entry per service | `src/content/services/<slug>.json` |
-
-The site itself previews at <http://localhost:4321> and reloads as you save.
-
-When you're happy:
-
-```bash
-git add -A
-git commit -m "Update services copy"
-git push
-```
-
-The Action deploys within a minute or two. Watch it under the repo's **Actions** tab.
-
----
+Every publish is an ordinary commit, so content has full history and any change
+can be undone with `git revert`.
 
 ## Commands
 
 | Command | Does |
 |---|---|
-| `npm run dev` | Dev server **with** the Keystatic editor at `/keystatic` |
-| `npm run build` | Production build to `dist/` — static, no editor |
-| `npm run preview` | Serve the built `dist/` locally to check it before pushing |
+| `npm start` | Start the admin console and open it (same as the Desktop icon) |
+| `npm run publish` | Build check, commit and push (same as the Desktop icon) |
+| `npm run dev` | Dev server with the console at `/keystatic` |
+| `npm run build` | Production build to `dist/` — static, no console |
+| `npm run preview` | Serve the built `dist/` to check it before publishing |
+| `npx astro dev stop` | Stop the console's dev server |
 
-`build` and `preview` set `SKIP_KEYSTATIC=true`, which drops the editor's
-server-rendered routes. Without it the build would fail, because those routes
-cannot be prerendered.
-
----
+`build` and `preview` set `SKIP_KEYSTATIC=true`, which drops the console's
+server-rendered routes. Without it the build fails, because those routes cannot
+be prerendered.
 
 ## First-time setup
 
-1. **Create the repo** as `<owner>.github.io` under the company account and push
-   this project to the `main` branch.
+1. **Create the repo** as `<owner>.github.io` under the company account. The
+   default branch must be **`main`** — the deploy workflow triggers on it.
 
 2. **Set the site URL.** In `astro.config.mjs`, replace the placeholder:
 
@@ -82,15 +91,30 @@ cannot be prerendered.
 
    This only affects canonical URLs and social metadata — assets work regardless.
 
-3. **Turn on Pages.** Repo → Settings → Pages → **Source: GitHub Actions**.
+3. **Connect the repo and push:**
+
+   ```bash
+   git remote add origin git@github.com:<owner>/<owner>.github.io.git
+   git push -u origin main
+   ```
+
+4. **Turn on Pages.** Repo → Settings → Pages → **Source: GitHub Actions**.
    (Not "Deploy from a branch" — this project builds via the workflow.)
 
-4. Push to `main`. The site goes live at `https://<owner>.github.io`.
+5. **Set up the editor's machine.** Install Node.js, clone the repo, make sure
+   `git push` works without a password prompt (SSH key or credential helper —
+   otherwise Publish will fail), then run:
+
+   ```bash
+   ./make-launchers.sh
+   ```
+
+   That puts the two Desktop icons in place. Run it once, on their machine.
 
 ### Using a different repo name
 
-A repo named something other than `<owner>.github.io` is served from a subpath, so
-add a matching `base` in `astro.config.mjs` or every asset 404s:
+A repo named something other than `<owner>.github.io` is served from a subpath,
+so add a matching `base` in `astro.config.mjs` or every asset 404s:
 
 ```js
 site: 'https://<owner>.github.io',
@@ -102,14 +126,16 @@ base: '/<repo-name>/',
 Add a `public/CNAME` file containing just the domain, set the domain under
 Settings → Pages, and set `site` to `https://your-domain.com`.
 
----
-
 ## Project layout
 
 ```
-astro.config.mjs        Astro config; gates Keystatic out of production builds
-keystatic.config.ts     The content model — what fields the editor shows
-src/content/            Content, written by Keystatic. Edit here or in the UI.
+start-editor.sh         Starts the admin console and opens it
+publish.sh              Build check, then commit and push
+make-launchers.sh       Creates the two Desktop icons (run once, per machine)
+
+astro.config.mjs        Astro config; gates the console out of production builds
+keystatic.config.ts     The content model — what fields the console shows
+src/content/            Content, written by the console. Editable by hand too.
 src/pages/index.astro   The page; reads the content and lays it out
 src/components/         StatTile, ServiceCard, ServiceIcon
 src/layouts/Base.astro  Head, header, footer
@@ -117,19 +143,23 @@ src/styles/global.css   Design tokens (light + dark) and base styles
 .github/workflows/      The Pages deploy workflow
 ```
 
-## Adding a content field
+## Adding a field to the console
 
 Content is typed by the schema, so a new field is two edits:
 
 1. Add it to the relevant schema in `keystatic.config.ts` — it appears in the
-   editor immediately.
+   console immediately, with its label and description.
 2. Render it in `src/pages/index.astro` (or a component).
+
+Give every field a `label` and a `description`. The description is the help text
+under the input, and it is the main thing that makes the console self-explanatory
+to someone who doesn't know the site.
 
 ## Notes
 
-- The page ships **zero JavaScript**. React is installed only because Keystatic's
-  editor needs it in dev; the built page references no script.
+- The page ships **zero JavaScript**. React is installed only because the console
+  needs it in dev; the built page references no script.
 - Light and dark themes both follow the OS setting. The two accent steps were
   picked separately per theme and contrast-checked — don't derive one by
   inverting the other.
-- All current copy is **placeholder**. Replace it in the editor.
+- All current copy is **placeholder**. Replace it in the console.
