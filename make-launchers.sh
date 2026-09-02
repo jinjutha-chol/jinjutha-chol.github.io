@@ -8,6 +8,8 @@ DESKTOP="$(xdg-user-dir DESKTOP 2>/dev/null || true)"
 [ -z "$DESKTOP" ] && DESKTOP="$HOME/Desktop"
 mkdir -p "$DESKTOP"
 
+# Path= sets the working directory, so Exec needs no `cd`. That matters:
+# `'` and `&` are reserved characters in an Exec line and make it invalid.
 make_launcher() {
   local file="$DESKTOP/$1.desktop" name="$2" script="$3" icon="$4" comment="$5"
   cat > "$file" <<EOF
@@ -16,7 +18,7 @@ Type=Application
 Version=1.0
 Name=$name
 Comment=$comment
-Exec=bash -c 'cd "$PROJECT" && ./$script'
+Exec="$PROJECT/$script"
 Path=$PROJECT
 Icon=$icon
 Terminal=true
