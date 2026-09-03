@@ -1,4 +1,5 @@
 import { config, fields, collection, singleton } from '@keystatic/core'
+import { BrandMark } from './src/keystatic/BrandMark'
 
 // Paths have NO trailing slash, so Keystatic writes flat files:
 //   src/content/company.json
@@ -8,11 +9,10 @@ export default config({
   storage: { kind: 'local' },
 
   ui: {
-    brand: { name: 'XSpring' },
+    brand: { name: 'XSpring website', mark: BrandMark },
     navigation: {
-      'Company profile': ['company'],
-      'What we do': ['services'],
-      'Design': ['appearance'],
+      'Your content': ['company', 'services'],
+      'How it looks': ['appearance'],
     },
   },
 
@@ -21,6 +21,8 @@ export default config({
       label: 'Company profile',
       path: 'src/content/company',
       format: { data: 'json' },
+      // Adds a "Preview" link to the running local site.
+      previewUrl: 'http://localhost:4321',
       schema: {
         name: fields.text({
           label: 'Company name',
@@ -28,43 +30,61 @@ export default config({
         }),
         tagline: fields.text({
           label: 'Tagline',
-          description: 'One line under the company name in the hero.',
+          description: 'The small line shown above the company name at the top of the page.',
         }),
         intro: fields.text({
           label: 'Introduction',
           multiline: true,
-          description: 'Two or three sentences on who you are.',
+          description: 'Two or three sentences on who you are. Shown under the company name.',
         }),
         stats: fields.array(
           fields.object({
-            value: fields.text({ label: 'Value', description: 'e.g. "12+" or "98%"' }),
-            label: fields.text({ label: 'Label', description: 'e.g. "Years in business"' }),
+            value: fields.text({
+              label: 'Figure',
+              description: 'Keep it short — 12+, 98%, 24/7',
+            }),
+            label: fields.text({
+              label: 'What it means',
+              description: 'A few words — Years in business',
+            }),
           }),
           {
             label: 'Key figures',
-            description: 'Shown as the tile row under the hero. Three or four works best.',
+            description:
+              'The row of boxes under the introduction. Four fits neatly across.',
             itemLabel: (props) => `${props.fields.value.value} — ${props.fields.label.value}`,
           }
         ),
         about: fields.text({
           label: 'About us',
           multiline: true,
+          description:
+            'The longer description further down the page. Leave a blank line between paragraphs.',
         }),
         contact: fields.object(
           {
-            email: fields.text({ label: 'Email' }),
-            phone: fields.text({ label: 'Phone' }),
-            address: fields.text({ label: 'Address', multiline: true }),
+            email: fields.text({ label: 'Email', description: 'hello@example.com' }),
+            phone: fields.text({ label: 'Phone', description: '+66 2 000 0000' }),
+            address: fields.text({
+              label: 'Office',
+              multiline: true,
+              description: 'Shown at the bottom of the page.',
+            }),
           },
-          { label: 'Contact details' }
+          // 12-column grid: email and phone share a row, address takes its own.
+          { label: 'Contact details', layout: [6, 6, 12] }
         ),
         links: fields.array(
-          fields.object({
-            label: fields.text({ label: 'Label' }),
-            url: fields.url({ label: 'URL' }),
-          }),
+          fields.object(
+            {
+              label: fields.text({ label: 'Link text', description: 'e.g. LinkedIn' }),
+              url: fields.url({ label: 'Address', description: 'Starts with https://' }),
+            },
+            { layout: [5, 7] }
+          ),
           {
-            label: 'Links',
+            label: 'Footer links',
+            description: 'Optional. Shown at the very bottom of the page.',
             itemLabel: (props) => props.fields.label.value || 'Link',
           }
         ),
@@ -75,6 +95,7 @@ export default config({
       label: 'Design',
       path: 'src/content/appearance',
       format: { data: 'json' },
+      previewUrl: 'http://localhost:4321',
       schema: {
         theme: fields.select({
           label: 'Theme',
@@ -181,39 +202,51 @@ export default config({
       slugField: 'title',
       path: 'src/content/services/*',
       format: { data: 'json' },
-      columns: ['title'],
+      // Services share one page, so preview jumps to that section.
+      previewUrl: 'http://localhost:4321/#services',
+      columns: ['title', 'order'],
       schema: {
         title: fields.slug({
           name: {
             label: 'Service name',
+            description: 'The heading on the card. Keep it short.',
             validation: { length: { min: 1 } },
+          },
+          // Keystatic always shows this second box. Relabelled in plain words
+          // so it reads as housekeeping rather than something to worry about.
+          slug: {
+            label: 'Short name (filled in for you)',
+            description:
+              'Taken from the service name and used to file this service away. You can leave it alone.',
           },
         }),
         icon: fields.select({
           label: 'Icon',
+          description: 'The small symbol above the heading.',
+          // Named for what the service IS, not what the picture looks like.
           options: [
-            { label: 'Chart / analytics', value: 'chart' },
-            { label: 'Code / development', value: 'code' },
-            { label: 'Cloud / infrastructure', value: 'cloud' },
-            { label: 'Shield / security', value: 'shield' },
-            { label: 'Spark / consulting', value: 'spark' },
-            { label: 'Layers / integration', value: 'layers' },
+            { label: 'Software', value: 'code' },
+            { label: 'Cloud', value: 'cloud' },
+            { label: 'Analytics', value: 'chart' },
+            { label: 'Security', value: 'shield' },
+            { label: 'Integration', value: 'layers' },
+            { label: 'Consulting', value: 'spark' },
           ],
           defaultValue: 'spark',
         }),
         summary: fields.text({
           label: 'Summary',
           multiline: true,
-          description: 'One short paragraph shown on the service card.',
+          description: 'One short paragraph under the heading. Around 25 words.',
         }),
         highlights: fields.array(fields.text({ label: 'Highlight' }), {
           label: 'Highlights',
-          description: 'Short bullet points listed under the summary.',
+          description: 'Short bullet points. Three is ideal.',
           itemLabel: (props) => props.value || 'Highlight',
         }),
         order: fields.integer({
-          label: 'Sort order',
-          description: 'Lower numbers appear first.',
+          label: 'Position on the page',
+          description: 'Lower numbers appear first. Drag is not supported here, so use 10, 20, 30 to leave room in between.',
           defaultValue: 10,
         }),
       },

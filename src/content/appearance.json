@@ -1,6 +1,6 @@
 {
-  "theme": "minimal",
-  "layout": "grid",
+  "theme": "modern",
+  "layout": "centred",
   "advanced": {
     "discriminant": false
   }

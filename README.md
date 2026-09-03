@@ -43,7 +43,12 @@ figures, about or contact sections.
 Fill in the boxes and press **Save** (top right). Saving stores the change on
 this computer — the live website has not changed yet.
 
-To see how it looks, open <http://localhost:4321>.
+Every box has a line of grey help text under its label saying what it does and
+roughly how long it should be. The **↗** button in the top right opens the real
+page so you can see your change.
+
+One box is worth ignoring: **Short name (filled in for you)** on a service. It
+fills itself in from the service name and nothing on the page uses it.
 
 ### 2. Publish
 
