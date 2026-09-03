@@ -1,8 +1,7 @@
 {
-  "theme": "modern",
+  "theme": "minimal",
   "layout": "grid",
   "advanced": {
-    "discriminant": false,
-    "value": null
+    "discriminant": false
   }
 }

@@ -37,20 +37,43 @@ if ! curl -sf -o /dev/null --max-time 2 "$URL"; then
   fi
 fi
 
+# Colour only when writing to a real terminal, so piping stays clean.
+if [ -t 1 ]; then
+  B=$(printf '\033[1m'); U=$(printf '\033[1;4;36m'); D=$(printf '\033[2m'); R=$(printf '\033[0m')
+else
+  B=""; U=""; D=""; R=""
+fi
+RULE="  ────────────────────────────────────────────────────────────"
+
 echo
-echo "  ✓ Editor is running."
+echo "$D$RULE$R"
 echo
-echo "    Edit content:  $URL"
-echo "    Preview site:  http://localhost:4321"
+echo "   ${B}✓  The editor is running.${R}"
 echo
-echo "    When you're finished, run Publish to put your changes online."
+echo "   Open this link to edit the website:"
+echo
+echo "       ${U}${URL}${R}"
+echo
+echo "   To preview the site itself:"
+echo
+echo "       ${U}http://localhost:4321${R}"
+echo
+echo "$D$RULE$R"
+echo
+echo "   ${D}Ctrl+click a link, or copy it into your browser.${R}"
+echo "   ${D}When you are finished editing, run Publish to put the${R}"
+echo "   ${D}changes online.${R}"
 echo
 
-# Open in the default browser, quietly, on whichever platform this is.
+# Try to open the browser too. If there is no opener, the link above is still
+# on screen, so say so rather than failing silently.
 if command -v xdg-open >/dev/null 2>&1; then
   xdg-open "$URL" >/dev/null 2>&1 &
 elif command -v open >/dev/null 2>&1; then
   open "$URL" >/dev/null 2>&1 &
+else
+  echo "   ${D}(Could not open a browser automatically — use the link above.)${R}"
+  echo
 fi
 
-read -r -p "Press Enter to close this window (the editor keeps running)." _
+read -r -p "   Press Enter to close this window. The editor keeps running. " _
