@@ -1,6 +1,9 @@
 ---
+import '../styles/themes.css'
+import '../styles/accents.css'
 import '../styles/global.css'
 import company from '../content/company.json'
+import { appearance, accentAttr } from '../lib/appearance'
 
 interface Props {
   title?: string
@@ -21,7 +24,15 @@ const year = new Date().getFullYear()
 ---
 
 <!doctype html>
-<html lang="en">
+<html
+  lang="en"
+  data-theme-name={appearance.theme}
+  data-layout={appearance.layout}
+  data-width={appearance.width}
+  data-hero={appearance.heroStyle}
+  data-card={appearance.cardStyle}
+  data-accent={accentAttr}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -22,8 +22,10 @@ const { value, label } = Astro.props
   }
 
   .value {
+    /* Follows the theme's heading face so serif themes stay coherent. */
+    font-family: var(--font-heading);
     font-size: clamp(1.75rem, 4vw, 2.25rem);
-    font-weight: 650;
+    font-weight: var(--heading-weight);
     letter-spacing: -0.03em;
     line-height: 1.1;
     color: var(--ink);

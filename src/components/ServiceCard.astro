@@ -6,39 +6,60 @@ interface Props {
   icon: string
   summary: string
   highlights: string[]
+  /* 'row' is the full-width form used by the List layout. */
+  variant?: 'card' | 'row'
 }
-const { title, icon, summary, highlights } = Astro.props
+const { title, icon, summary, highlights, variant = 'card' } = Astro.props
 ---
 
-<article class="card">
+<article class:list={['card', `is-${variant}`]}>
   <span class="icon"><ServiceIcon name={icon} /></span>
-  <h3 class="title">{title}</h3>
-  <p class="summary">{summary}</p>
-  {
-    highlights.length > 0 && (
-      <ul class="highlights">
-        {highlights.map((h) => (
-          <li>{h}</li>
-        ))}
-      </ul>
-    )
-  }
+  <div class="body">
+    <h3 class="title">{title}</h3>
+    <p class="summary">{summary}</p>
+    {
+      highlights.length > 0 && (
+        <ul class="highlights">
+          {highlights.map((h) => (
+            <li>{h}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
 </article>
 
 <style>
   .card {
-    display: flex;
-    flex-direction: column;
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: var(--card-border-width, 1px) solid var(--border);
     border-radius: var(--radius);
     padding: 24px;
     transition: border-color 0.15s ease, transform 0.15s ease;
   }
 
+  /* Card style is an advanced setting; it only ever changes the container,
+     never the content inside it. */
+  :global(:root[data-card='filled']) .card {
+    background: var(--surface-sunken);
+    border-color: transparent;
+  }
+  :global(:root[data-card='plain']) .card {
+    background: none;
+    border-color: transparent;
+    padding-inline: 0;
+  }
+  :global(:root[data-card='plain']) .card:hover {
+    transform: none;
+  }
+
   .card:hover {
     border-color: var(--accent);
     transform: translateY(-2px);
+  }
+  :global(:root[data-card='filled']) .card:hover,
+  :global(:root[data-card='plain']) .card:hover {
+    border-color: transparent;
   }
 
   .icon {
@@ -47,29 +68,33 @@ const { title, icon, summary, highlights } = Astro.props
     justify-content: center;
     width: 40px;
     height: 40px;
+    flex: none;
     border-radius: var(--radius-sm);
     background: var(--accent-wash);
     color: var(--accent-text);
-    margin-bottom: 16px;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   .title {
     font-size: 1.125rem;
-    font-weight: 650;
   }
 
   .summary {
     margin-top: 8px;
+    /* Pushes .highlights to the bottom so dividers line up across a row even
+       when summaries run to different lengths. */
     margin-bottom: auto;
     color: var(--ink-secondary);
     font-size: 0.9375rem;
   }
 
   .highlights {
-    /* Push to the card's bottom so the divider lines up across a row even when
-       summaries run to different lengths. */
     margin: 16px 0 0;
-    align-self: stretch;
     padding: 16px 0 0;
     border-top: 1px solid var(--hairline);
     list-style: none;
@@ -93,5 +118,55 @@ const { title, icon, summary, highlights } = Astro.props
     height: 6px;
     border-radius: 50%;
     background: var(--accent);
+  }
+
+  /* ---- Card form (Grid and Centred layouts) ---- */
+  .is-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .is-card .icon {
+    margin-bottom: 16px;
+  }
+
+  /* ---- Row form (List layout): icon beside the text, highlights inline ---- */
+  /* Rows sit flush against each other and are separated by a single hairline
+     drawn by the parent, so each row must drop its own box — otherwise the
+     borders double up between rows and the rounded corners collide. */
+  .card.is-row {
+    border: none;
+    border-radius: 0;
+    padding-inline: 0;
+  }
+  .card.is-row:hover {
+    transform: none;
+  }
+
+  .is-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+  .is-row .summary {
+    margin-bottom: 0;
+    max-width: 70ch;
+  }
+  .is-row .highlights {
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: 24px;
+  }
+
+  @media (max-width: 700px) {
+    .is-row {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .is-row .highlights {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      gap: 8px;
+    }
   }
 </style>

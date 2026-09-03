@@ -12,6 +12,7 @@ export default config({
     navigation: {
       'Company profile': ['company'],
       'What we do': ['services'],
+      'Design': ['appearance'],
     },
   },
 
@@ -65,6 +66,109 @@ export default config({
           {
             label: 'Links',
             itemLabel: (props) => props.fields.label.value || 'Link',
+          }
+        ),
+      },
+    }),
+
+    appearance: singleton({
+      label: 'Design',
+      path: 'src/content/appearance',
+      format: { data: 'json' },
+      schema: {
+        theme: fields.select({
+          label: 'Theme',
+          description:
+            'Modern — teal, rounded corners. Corporate — blue, square corners, serif headings. Minimal — black and white, no colour.',
+          defaultValue: 'modern',
+          options: [
+            { label: 'Modern', value: 'modern' },
+            { label: 'Corporate', value: 'corporate' },
+            { label: 'Minimal', value: 'minimal' },
+          ],
+        }),
+        layout: fields.select({
+          label: 'Layout',
+          description:
+            'Grid — services in three columns. Centred — everything centred, services in two columns. List — services as full-width rows.',
+          defaultValue: 'grid',
+          options: [
+            { label: 'Grid', value: 'grid' },
+            { label: 'Centred', value: 'centred' },
+            { label: 'List', value: 'list' },
+          ],
+        }),
+
+        // Everything below is hidden until the box is ticked, so the everyday
+        // screen stays down to two questions.
+        advanced: fields.conditional(
+          fields.checkbox({
+            label: 'Show advanced options',
+            description: 'Leave this off unless you specifically want to change something here.',
+            defaultValue: false,
+          }),
+          {
+            false: fields.empty(),
+            true: fields.object(
+              {
+                accent: fields.select({
+                  label: 'Accent colour',
+                  description:
+                    'Overrides the theme colour. Every option here has been checked for readability in both light and dark mode.',
+                  defaultValue: 'theme',
+                  options: [
+                    { label: 'Theme default', value: 'theme' },
+                    { label: 'Teal', value: 'teal' },
+                    { label: 'Blue', value: 'blue' },
+                    { label: 'Violet', value: 'violet' },
+                    { label: 'Green', value: 'green' },
+                    { label: 'Amber', value: 'amber' },
+                    { label: 'Rose', value: 'rose' },
+                  ],
+                }),
+                width: fields.select({
+                  label: 'Page width',
+                  description: 'How wide the content runs on a large screen.',
+                  defaultValue: 'normal',
+                  options: [
+                    { label: 'Narrow', value: 'narrow' },
+                    { label: 'Normal', value: 'normal' },
+                    { label: 'Wide', value: 'wide' },
+                  ],
+                }),
+                heroStyle: fields.select({
+                  label: 'Top of the page',
+                  description: 'Whether a soft wash of the accent colour sits behind the title.',
+                  defaultValue: 'glow',
+                  options: [
+                    { label: 'Colour wash', value: 'glow' },
+                    { label: 'Plain', value: 'flat' },
+                  ],
+                }),
+                cardStyle: fields.select({
+                  label: 'Service card style',
+                  defaultValue: 'bordered',
+                  options: [
+                    { label: 'Bordered box', value: 'bordered' },
+                    { label: 'Filled panel', value: 'filled' },
+                    { label: 'No box, just text', value: 'plain' },
+                  ],
+                }),
+                showStats: fields.checkbox({
+                  label: 'Show the key figures row',
+                  defaultValue: true,
+                }),
+                showAbout: fields.checkbox({
+                  label: 'Show the about section',
+                  defaultValue: true,
+                }),
+                showContact: fields.checkbox({
+                  label: 'Show the contact section',
+                  defaultValue: true,
+                }),
+              },
+              { label: 'Advanced' }
+            ),
           }
         ),
       },

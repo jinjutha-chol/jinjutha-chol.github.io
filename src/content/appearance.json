@@ -1,0 +1,8 @@
+{
+  "theme": "modern",
+  "layout": "grid",
+  "advanced": {
+    "discriminant": false,
+    "value": null
+  }
+}

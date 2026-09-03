@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro'
 import StatTile from '../components/StatTile.astro'
 import ServiceCard from '../components/ServiceCard.astro'
 import company from '../content/company.json'
+import { appearance } from '../lib/appearance'
 
 type Service = {
   title: string
@@ -13,7 +14,7 @@ type Service = {
 }
 
 // Keystatic writes one flat JSON file per service. Globbing them keeps the page
-// in sync automatically — add a service in the editor and it appears here.
+// in sync automatically — add a service in the console and it appears here.
 const modules = import.meta.glob<Service>('../content/services/*.json', {
   eager: true,
   import: 'default',
@@ -21,6 +22,9 @@ const modules = import.meta.glob<Service>('../content/services/*.json', {
 const services = Object.values(modules).sort((a, b) => a.order - b.order)
 
 const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length > 0)
+
+// The List layout is the only one that uses the full-width row form.
+const cardVariant = appearance.layout === 'list' ? 'row' : 'card'
 ---
 
 <Base>
@@ -37,7 +41,7 @@ const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length 
   </section>
 
   {
-    company.stats.length > 0 && (
+    appearance.showStats && company.stats.length > 0 && (
       <section class="wrap" aria-label="Key figures">
         <div class="stats">
           {company.stats.map((s) => (
@@ -50,12 +54,14 @@ const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length 
 
   <section class="section" id="services">
     <div class="wrap">
-      <p class="eyebrow">What we do</p>
-      <h2 class="section-title">Services</h2>
-      <p class="section-lede">
-        Engagements are scoped to the problem, not to a fixed package. Most clients start
-        with one of these and grow from there.
-      </p>
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2 class="section-title">Services</h2>
+        <p class="section-lede">
+          Engagements are scoped to the problem, not to a fixed package. Most clients start
+          with one of these and grow from there.
+        </p>
+      </div>
       <div class="grid">
         {
           services.map((s) => (
@@ -64,6 +70,7 @@ const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length 
               icon={s.icon}
               summary={s.summary}
               highlights={s.highlights}
+              variant={cardVariant}
             />
           ))
         }
@@ -71,53 +78,73 @@ const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length 
     </div>
   </section>
 
-  <section class="section about" id="about">
-    <div class="wrap about-grid">
-      <div>
-        <p class="eyebrow">Who we are</p>
-        <h2 class="section-title">About {company.name}</h2>
-      </div>
-      <div class="about-body">
-        {aboutParagraphs.map((p) => <p>{p}</p>)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="contact">
-    <div class="wrap">
-      <div class="contact-card">
-        <div>
-          <p class="eyebrow">Get in touch</p>
-          <h2 class="section-title">Let's talk about your project</h2>
-          <p class="section-lede">
-            Tell us what you're building or what's breaking. We'll tell you honestly whether
-            we're the right team for it.
-          </p>
+  {
+    appearance.showAbout && (
+      <section class="section about" id="about">
+        <div class="wrap about-grid">
+          <div>
+            <p class="eyebrow">Who we are</p>
+            <h2 class="section-title">About {company.name}</h2>
+          </div>
+          <div class="about-body">
+            {aboutParagraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
         </div>
-        <dl class="details">
-          <div>
-            <dt>Email</dt>
-            <dd><a href={`mailto:${company.contact.email}`}>{company.contact.email}</a></dd>
+      </section>
+    )
+  }
+
+  {
+    appearance.showContact && (
+      <section class="section" id="contact">
+        <div class="wrap">
+          <div class="contact-card">
+            <div>
+              <p class="eyebrow">Get in touch</p>
+              <h2 class="section-title">Let's talk about your project</h2>
+              <p class="section-lede">
+                Tell us what you're building or what's breaking. We'll tell you honestly
+                whether we're the right team for it.
+              </p>
+            </div>
+            <dl class="details">
+              <div>
+                <dt>Email</dt>
+                <dd>
+                  <a href={`mailto:${company.contact.email}`}>{company.contact.email}</a>
+                </dd>
+              </div>
+              <div>
+                <dt>Phone</dt>
+                <dd>
+                  <a href={`tel:${company.contact.phone.replace(/\s+/g, '')}`}>
+                    {company.contact.phone}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Office</dt>
+                <dd>{company.contact.address}</dd>
+              </div>
+            </dl>
           </div>
-          <div>
-            <dt>Phone</dt>
-            <dd><a href={`tel:${company.contact.phone.replace(/\s+/g, '')}`}>{company.contact.phone}</a></dd>
-          </div>
-          <div>
-            <dt>Office</dt>
-            <dd>{company.contact.address}</dd>
-          </div>
-        </dl>
-      </div>
-    </div>
-  </section>
+        </div>
+      </section>
+    )
+  }
 </Base>
 
 <style>
   .hero {
     padding-block: clamp(64px, 11vw, 112px) 40px;
-    background:
-      radial-gradient(60rem 26rem at 12% -10%, var(--accent-wash), transparent 65%);
+    background: var(--hero-glow);
+  }
+
+  /* Advanced setting: drop the wash behind the title. */
+  :global(:root[data-hero='flat']) .hero {
+    background: none;
   }
 
   .hero-title {
@@ -156,7 +183,6 @@ const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length 
     background: var(--accent-solid);
     color: var(--on-accent);
   }
-
   .btn-primary:hover {
     filter: brightness(1.08);
   }
@@ -166,7 +192,6 @@ const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length 
     color: var(--ink);
     background: var(--surface);
   }
-
   .btn-ghost:hover {
     border-color: var(--accent);
   }
@@ -182,6 +207,34 @@ const aboutParagraphs = company.about.split('\n').filter((p) => p.trim().length 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+  }
+
+  /* ---------- Layout: Centred ---------- */
+  :global(:root[data-layout='centred']) .hero .wrap,
+  :global(:root[data-layout='centred']) .section-head {
+    text-align: center;
+  }
+  :global(:root[data-layout='centred']) .hero-intro,
+  :global(:root[data-layout='centred']) .section-lede {
+    margin-inline: auto;
+  }
+  :global(:root[data-layout='centred']) .cta {
+    justify-content: center;
+  }
+  :global(:root[data-layout='centred']) .grid {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  /* ---------- Layout: List ---------- */
+  :global(:root[data-layout='list']) .grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  /* One hairline between rows rather than a border around each. */
+  :global(:root[data-layout='list']) .grid > * + * {
+    border-top: 1px solid var(--hairline);
   }
 
   .about {

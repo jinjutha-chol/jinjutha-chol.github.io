@@ -21,6 +21,24 @@ A browser tab opens with the admin console. Two sections in the sidebar:
 |---|---|
 | **Company profile** | Company name, tagline, introduction, key figures, about text, contact details, footer links |
 | **Services** | The service cards — add, remove, reorder, or edit any of them |
+| **Design** | The theme (colours) and layout (arrangement) of the page |
+
+### Changing how the site looks
+
+Open **Design**. There are two questions:
+
+- **Theme** — Modern (teal, rounded), Corporate (blue, square, serif headings),
+  or Minimal (black and white).
+- **Layout** — Grid (services in three columns), Centred (everything centred,
+  two columns), or List (services as full-width rows).
+
+Any theme works with any layout, and all nine combinations have been checked in
+both light and dark mode.
+
+Below those is a **Show advanced options** box. Leave it unticked — the site
+works perfectly without it. Ticking it reveals accent colour, page width, the
+style of the top of the page, service card style, and switches to hide the key
+figures, about or contact sections.
 
 Fill in the boxes and press **Save** (top right). Saving stores the change on
 this computer — the live website has not changed yet.
@@ -136,6 +154,10 @@ make-launchers.sh       Creates the two Desktop icons (run once, per machine)
 astro.config.mjs        Astro config; gates the console out of production builds
 keystatic.config.ts     The content model — what fields the console shows
 src/content/            Content, written by the console. Editable by hand too.
+src/content/appearance.json  Theme, layout and the advanced settings
+src/lib/appearance.ts   Resolves those settings, filling in advanced defaults
+src/styles/themes.css   The three themes — light and dark steps for each
+src/styles/accents.css  The optional accent presets
 src/pages/index.astro   The page; reads the content and lays it out
 src/components/         StatTile, ServiceCard, ServiceIcon
 src/layouts/Base.astro  Head, header, footer
@@ -159,7 +181,12 @@ to someone who doesn't know the site.
 
 - The page ships **zero JavaScript**. React is installed only because the console
   needs it in dev; the built page references no script.
-- Light and dark themes both follow the OS setting. The two accent steps were
-  picked separately per theme and contrast-checked — don't derive one by
-  inverting the other.
+- Light and dark both follow the OS setting. Every theme and accent preset has
+  its own separately chosen dark steps — never derive one by inverting the
+  other. Before adding a theme or preset, run the palette validator and a
+  contrast check on both modes; the comments in `themes.css` and `accents.css`
+  say what has to pass.
+- The advanced defaults in `src/lib/appearance.ts` must match the `defaultValue`
+  of each advanced field in `keystatic.config.ts`. If they drift, ticking
+  "Show advanced options" would silently change the design.
 - All current copy is **placeholder**. Replace it in the console.

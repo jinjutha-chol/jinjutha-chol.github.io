@@ -1,0 +1,84 @@
+/* Optional accent override (an advanced setting). Loaded AFTER themes.css, so
+   when [data-accent] is present it wins over the theme's own accent; with no
+   attribute the theme's accent stands.
+
+   Every step below is validated: marks sit inside the mode's lightness band
+   with enough chroma and >=3:1 against the surface, and every text pair clears
+   WCAG 4.5:1 against the lightest surface of each mode. Do not add a preset by
+   eye — run scripts/validate_palette.js and the contrast check first. */
+
+:root[data-accent='teal'] {
+  --accent: #00937d;
+  --accent-text: #00786a;
+  --accent-solid: #00695c;
+  --on-accent: #ffffff;
+}
+:root[data-accent='blue'] {
+  --accent: #2563eb;
+  --accent-text: #1d4ed8;
+  --accent-solid: #1d4ed8;
+  --on-accent: #ffffff;
+}
+:root[data-accent='violet'] {
+  --accent: #7c3aed;
+  --accent-text: #6d28d9;
+  --accent-solid: #6d28d9;
+  --on-accent: #ffffff;
+}
+:root[data-accent='green'] {
+  --accent: #16a34a;
+  --accent-text: #15803d;
+  --accent-solid: #15803d;
+  --on-accent: #ffffff;
+}
+:root[data-accent='amber'] {
+  --accent: #d97706;
+  --accent-text: #b45309;
+  --accent-solid: #b45309;
+  --on-accent: #ffffff;
+}
+:root[data-accent='rose'] {
+  --accent: #e11d48;
+  --accent-text: #be123c;
+  --accent-solid: #be123c;
+  --on-accent: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-accent='teal'] {
+    --accent: #12a594;
+    --accent-text: #2dd4bf;
+    --accent-solid: #2dd4bf;
+    --on-accent: #0d0d0d;
+  }
+  :root[data-accent='blue'] {
+    --accent: #4f83e8;
+    --accent-text: #8fb4ff;
+    --accent-solid: #4f83e8;
+    --on-accent: #0b1020;
+  }
+  :root[data-accent='violet'] {
+    --accent: #8b5cf6;
+    --accent-text: #a78bfa;
+    --accent-solid: #8b5cf6;
+    --on-accent: #12071f;
+  }
+  :root[data-accent='green'] {
+    --accent: #2fa855;
+    --accent-text: #4ade80;
+    --accent-solid: #2fa855;
+    --on-accent: #04140a;
+  }
+  :root[data-accent='amber'] {
+    --accent: #c07f10;
+    --accent-text: #fbbf24;
+    --accent-solid: #c07f10;
+    --on-accent: #150c00;
+  }
+  :root[data-accent='rose'] {
+    --accent: #e05570;
+    --accent-text: #fb7185;
+    --accent-solid: #e05570;
+    --on-accent: #1a0308;
+  }
+}

@@ -1,0 +1,140 @@
+/* Three themes, each with its own light and dark steps.
+   Dark is never an automatic inversion of light — every accent step below was
+   run through the palette validator (lightness band, chroma, contrast vs its
+   own surface) and every text pair checked against WCAG. If you add a theme,
+   check both modes before shipping it.
+
+   Components only ever read these tokens, so a theme can never fight a
+   component's own styles. */
+
+/* ---------- Modern (default) — teal, rounded, all-sans ---------- */
+:root {
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --surface-sunken: #f2f2ee;
+  --ink: #0b0b0b;
+  --ink-secondary: #52514e;
+  --ink-muted: #898781;
+  --border: rgba(11, 11, 11, 0.1);
+  --hairline: #e1e0d9;
+
+  --accent: #00937d;
+  --accent-text: #00786a;
+  --accent-solid: #00695c;
+  --on-accent: #ffffff;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans Thai", sans-serif;
+  --font-heading: var(--font-sans);
+  --heading-weight: 650;
+  --heading-tracking: -0.02em;
+  --link-decoration: none;
+  --hero-glow: radial-gradient(60rem 26rem at 12% -10%, var(--accent-wash), transparent 65%);
+  --card-border-width: 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-sunken: #131312;
+    --ink: #ffffff;
+    --ink-secondary: #c3c2b7;
+    --ink-muted: #898781;
+    --border: rgba(255, 255, 255, 0.1);
+    --hairline: #2c2c2a;
+
+    --accent: #12a594;
+    --accent-text: #2dd4bf;
+    --accent-solid: #2dd4bf;
+    --on-accent: #0d0d0d;
+  }
+}
+
+/* ---------- Corporate — blue, square, serif headings ---------- */
+:root[data-theme-name='corporate'] {
+  --page: #f5f7fa;
+  --surface: #ffffff;
+  --surface-sunken: #eef1f6;
+  --ink: #0f172a;
+  --ink-secondary: #475569;
+  --ink-muted: #7c8798;
+  --border: rgba(15, 23, 42, 0.12);
+  --hairline: #dde3ec;
+
+  --accent: #1d4ed8;
+  --accent-text: #1d4ed8;
+  --accent-solid: #1d4ed8;
+  --on-accent: #ffffff;
+
+  --radius: 4px;
+  --radius-sm: 3px;
+  --font-heading: Georgia, "Times New Roman", "Noto Serif Thai", serif;
+  --heading-weight: 600;
+  --heading-tracking: -0.01em;
+  --hero-glow: linear-gradient(180deg, var(--accent-wash), transparent 70%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme-name='corporate'] {
+    --page: #0f1115;
+    --surface: #16181d;
+    --surface-sunken: #12141a;
+    --ink: #f8fafc;
+    --ink-secondary: #c2cad6;
+    --ink-muted: #8d97a6;
+    --border: rgba(248, 250, 252, 0.12);
+    --hairline: #262a33;
+
+    --accent: #4f83e8;
+    --accent-text: #8fb4ff;
+    --accent-solid: #4f83e8;
+    --on-accent: #0b1020;
+  }
+}
+
+/* ---------- Minimal — monochrome, hairline, underlined links ---------- */
+/* Deliberately has no accent hue: links are told apart by an underline, not by
+   colour, so nothing here depends on hue perception. */
+:root[data-theme-name='minimal'] {
+  --page: #ffffff;
+  --surface: #ffffff;
+  --surface-sunken: #f7f7f5;
+  --ink: #111110;
+  --ink-secondary: #4a4945;
+  --ink-muted: #7d7c76;
+  --border: rgba(17, 17, 16, 0.14);
+  --hairline: #e6e5e0;
+
+  --accent: #4a4945;
+  --accent-text: #2b2a28;
+  --accent-solid: #111110;
+  --on-accent: #ffffff;
+
+  --radius: 0px;
+  --radius-sm: 0px;
+  --heading-weight: 600;
+  --heading-tracking: -0.03em;
+  --link-decoration: underline;
+  --hero-glow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme-name='minimal'] {
+    --page: #0a0a0a;
+    --surface: #111111;
+    --surface-sunken: #0e0e0e;
+    --ink: #fafafa;
+    --ink-secondary: #b8b7b1;
+    --ink-muted: #87867f;
+    --border: rgba(250, 250, 250, 0.16);
+    --hairline: #232320;
+
+    --accent: #b8b7b1;
+    --accent-text: #e8e7df;
+    --accent-solid: #fafafa;
+    --on-accent: #0a0a0a;
+  }
+}
