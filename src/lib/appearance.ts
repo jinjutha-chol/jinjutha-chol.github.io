@@ -10,8 +10,6 @@ const ADVANCED_DEFAULTS = {
   width: 'normal',
   heroStyle: 'glow',
   cardStyle: 'bordered',
-  showStats: true,
-  showAbout: true,
   showContact: true,
 } as const
 
@@ -24,8 +22,6 @@ export type Appearance = {
   width: string
   heroStyle: string
   cardStyle: string
-  showStats: boolean
-  showAbout: boolean
   showContact: boolean
 }
 

@@ -1,0 +1,13 @@
+{
+  "title": "Invoice / Receivables Finance",
+  "section": "lending",
+  "icon": "receipt",
+  "summary": "Working-capital financing secured against outstanding invoices or receivables.",
+  "description": "",
+  "regions": [
+    "Thailand"
+  ],
+  "deals": [],
+  "highlights": [],
+  "order": 60
+}

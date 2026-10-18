@@ -1,0 +1,26 @@
+{
+  "title": "Share-Backed Finance",
+  "section": "lending",
+  "icon": "trending",
+  "summary": "Lending secured against listed or unlisted shareholdings, sized to the value and liquidity of the pledged shares.",
+  "regions": [
+    "Thailand"
+  ],
+  "segments": [
+    {
+      "name": "Jewelry Retail",
+      "examples": [
+        "A Thai SET-listed company engaged in gold jewelry retail and gold-backed lending (pawn services) seeking short-term liquidity need of 500m THB"
+      ]
+    },
+    {
+      "name": "Export Houses",
+      "examples": [
+        "Thai listed fruit exporter with working capital need of 200m THB"
+      ]
+    }
+  ],
+  "deals": [],
+  "highlights": [],
+  "order": 50
+}

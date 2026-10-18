@@ -1,0 +1,20 @@
+{
+  "title": "Asset-Backed Bridge Finance",
+  "section": "lending",
+  "icon": "bank",
+  "summary": "Short-term bridge financing secured against tangible assets, structured to close quickly ahead of a longer-term facility or exit.",
+  "regions": [
+    "Thailand"
+  ],
+  "segments": [
+    {
+      "name": "Real Estate",
+      "examples": [
+        "Thai SET-listed real estate developer seeking revolving credit facility backed by luxury detached-house projects in a prime central Bangkok location"
+      ]
+    }
+  ],
+  "deals": [],
+  "highlights": [],
+  "order": 20
+}

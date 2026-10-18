@@ -1,0 +1,24 @@
+{
+  "title": "Real Estates-Backed Lending",
+  "section": "lending",
+  "icon": "building",
+  "summary": "Last-mile financing for residential projects, hospitality real estates, mis-use concepts, and many more",
+  "description": "We provide bridge financing, last-mile financing for 1-year tenor against the collaterals e.g. rooms, land, project receivables.",
+  "regions": [
+    "Thailand"
+  ],
+  "segments": [
+    {
+      "name": "Real Estate Developer",
+      "examples": [
+        "200m THB revolving credit facility backed by luxury detached-house projects in a prime central Bangkok location",
+        "300m THB last-mile financing for 5-star lifestyle condominium backed by presales units",
+        "400m THB secured loan facility for a super-luxury condominium development",
+        "660m THB facility backed by leasehold land and mortgage of an office building in Bangkok "
+      ]
+    }
+  ],
+  "deals": [],
+  "highlights": [],
+  "order": 10
+}

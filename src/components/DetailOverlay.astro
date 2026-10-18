@@ -1,0 +1,175 @@
+---
+interface Props {
+  id: string
+  eyebrow: string
+  title: string
+  /* Where the close button and the backdrop point — usually the section the
+     card lives in, so closing returns you to roughly where you were. */
+  closeHref: string
+}
+const { id, eyebrow, title, closeHref } = Astro.props
+---
+
+<div class="overlay" id={id} role="dialog" aria-modal="true" aria-labelledby={`${id}-title`}>
+  <a class="overlay-scrim" href={closeHref} tabindex="-1" aria-label="Close"></a>
+  <div class="overlay-panel">
+    <a class="overlay-close" href={closeHref} aria-label="Close">&times;</a>
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 class="overlay-title" id={`${id}-title`}>{title}</h2>
+    <div class="overlay-body">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* A hash-addressed panel: /#svc-… opens it, Back or the close link shuts it,
+     and it is shareable. No JavaScript — the page still ships none. */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.18s ease, visibility 0.18s ease;
+  }
+  .overlay:target {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Lock the background so only the panel scrolls while it is open. */
+  :global(body:has(.overlay:target)) {
+    overflow: hidden;
+  }
+
+  .overlay-scrim {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--ink) 45%, transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  .overlay-panel {
+    position: relative;
+    width: min(70vw, 1080px);
+    height: min(70vh, 780px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(28px, 4vw, 52px);
+    box-shadow: 0 24px 60px -12px color-mix(in srgb, var(--ink) 40%, transparent);
+    transform: scale(0.94);
+    transition: transform 0.2s ease;
+  }
+  .overlay:target .overlay-panel {
+    transform: scale(1);
+  }
+
+  @media (max-width: 768px) {
+    .overlay-panel {
+      width: 92vw;
+      height: 86vh;
+    }
+  }
+
+  .overlay-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    font-size: 1.5rem;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--ink-muted);
+    background: var(--surface-sunken);
+  }
+  .overlay-close:hover {
+    color: var(--ink);
+  }
+
+  .overlay-title {
+    font-size: clamp(1.5rem, 3.4vw, 2.125rem);
+    margin-bottom: 8px;
+  }
+
+  .overlay-body {
+    margin-top: 24px;
+    display: grid;
+    gap: 28px;
+  }
+
+  .overlay-body :global(.block-title) {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 12px;
+  }
+
+  .overlay-body :global(.prose) {
+    display: grid;
+    gap: 14px;
+    color: var(--ink-secondary);
+    font-size: 1.0625rem;
+    max-width: 68ch;
+  }
+
+  .overlay-body :global(.regions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .overlay-body :global(.regions li) {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--accent-wash);
+    color: var(--accent-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .overlay-body :global(.cases) {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .overlay-body :global(.cases li) {
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+  }
+  .overlay-body :global(.cases .case-name) {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .overlay-body :global(.cases .case-detail) {
+    margin-top: 4px;
+    color: var(--ink-secondary);
+    font-size: 0.9375rem;
+  }
+  .overlay-body :global(.cases .example-list) {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 6px;
+    list-style: disc;
+    color: var(--ink-secondary);
+    font-size: 0.9375rem;
+  }
+</style>

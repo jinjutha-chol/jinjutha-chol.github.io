@@ -8,11 +8,14 @@ interface Props {
   highlights: string[]
   /* 'row' is the full-width form used by the List layout. */
   variant?: 'card' | 'row'
+  /* When set, the whole card becomes a link that opens the detail overlay. */
+  href?: string
 }
-const { title, icon, summary, highlights, variant = 'card' } = Astro.props
+const { title, icon, summary, highlights, variant = 'card', href } = Astro.props
+const Tag = href ? 'a' : 'article'
 ---
 
-<article class:list={['card', `is-${variant}`]}>
+<Tag class:list={['card', `is-${variant}`, { 'is-link': href }]} href={href}>
   <span class="icon"><ServiceIcon name={icon} /></span>
   <div class="body">
     <h3 class="title">{title}</h3>
@@ -26,8 +29,9 @@ const { title, icon, summary, highlights, variant = 'card' } = Astro.props
         </ul>
       )
     }
+    {href && <span class="more">View details<span aria-hidden="true"> &rarr;</span></span>}
   </div>
-</article>
+</Tag>
 
 <style>
   .card {
@@ -56,6 +60,25 @@ const { title, icon, summary, highlights, variant = 'card' } = Astro.props
   .card:hover {
     border-color: var(--accent);
     transform: translateY(-2px);
+  }
+
+  /* Linked card: kill the inherited anchor styling, keep it feeling clickable.
+     Display is left to .is-card / .is-row so both layouts keep working. */
+  a.card.is-link {
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .more {
+    margin-top: 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-text);
+  }
+  .card.is-link:hover .more {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
   :global(:root[data-card='filled']) .card:hover,
   :global(:root[data-card='plain']) .card:hover {

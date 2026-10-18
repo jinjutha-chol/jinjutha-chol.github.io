@@ -1,0 +1,35 @@
+{
+  "intro": "Targeting minority investments in established, high-growth companies globally, with a preference for businesses demonstrating strong fundamentals, scalable growth and a clear path to liquidity",
+  "currentSegments": [
+    {
+      "name": "F&B",
+      "note": "Premium specialty coffee targeting the mid-to-high-tier consumer segment, combining quality and brand positioning with broad accessibility"
+    },
+    {
+      "name": "Renewable Materials",
+      "note": "Application-agnostic material solutions serving diverse manufacturing applications"
+    },
+    {
+      "name": "Real Estate",
+      "note": "Foreign real-estate developer of large-scale mix-use projects"
+    }
+  ],
+  "targetSegments": [
+    {
+      "name": "Consumer Brands",
+      "note": "Defensive, mass-market brands with a proven customer base and solid operating foundation, positioned to capture the next S-curve of growth in high-growth markets"
+    },
+    {
+      "name": "F&B",
+      "note": "Scalable brands with an established customer base and proven fundamentals, entering a new growth trajectory"
+    },
+    {
+      "name": "Energy",
+      "note": "Energy transition and infrastructure opportunities backed by proven demand, supported by scarce and strategically valuable assets"
+    },
+    {
+      "name": "Healthcare & Beauty",
+      "note": "Resilient, consumer-driven businesses with proven demand and strong underlying fundamentals"
+    }
+  ]
+}

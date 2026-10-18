@@ -1,0 +1,16 @@
+{
+  "intro": "Three ways we put capital to work.",
+  "privateEquity": {
+    "title": "Private Equity Investments",
+    "tagline": "Late-stage equity in businesses with proven models."
+  },
+  "privateLending": {
+    "title": "Private Lending Solutions",
+    "tagline": "Bespoke debt financing secured against liquid collateral."
+  },
+  "funds": {
+    "title": "Funds Investments",
+    "tagline": "Selective commitments to external funds."
+  },
+  "emphasis": "privateLending"
+}

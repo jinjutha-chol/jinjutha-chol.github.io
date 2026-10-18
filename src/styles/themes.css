@@ -7,7 +7,7 @@
    Components only ever read these tokens, so a theme can never fight a
    component's own styles. */
 
-/* ---------- Modern (default) — teal, rounded, all-sans ---------- */
+/* ---------- Modern (default) — spring green, rounded, all-sans ---------- */
 :root {
   --page: #f9f9f7;
   --surface: #fcfcfb;
@@ -18,10 +18,13 @@
   --border: rgba(11, 11, 11, 0.1);
   --hairline: #e1e0d9;
 
-  --accent: #00937d;
-  --accent-text: #00786a;
-  --accent-solid: #00695c;
-  --on-accent: #ffffff;
+  /* Brand hue is the bright spring green. It carries the decorative work —
+     hero glow, icon tiles, card hovers, bullets — while text and buttons use a
+     deep green pair that clears WCAG AA on the light surfaces. */
+  --accent: #4fd41f;
+  --accent-text: #2c7a12;
+  --accent-solid: #4fd41f;
+  --on-accent: #0b0b0b;
 
   --radius: 12px;
   --radius-sm: 8px;
@@ -46,9 +49,9 @@
     --border: rgba(255, 255, 255, 0.1);
     --hairline: #2c2c2a;
 
-    --accent: #12a594;
-    --accent-text: #2dd4bf;
-    --accent-solid: #2dd4bf;
+    --accent: #5be234;
+    --accent-text: #82ea60;
+    --accent-solid: #4fd41f;
     --on-accent: #0d0d0d;
   }
 }
