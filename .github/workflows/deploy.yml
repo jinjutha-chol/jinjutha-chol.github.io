@@ -25,6 +25,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Work out the Pages URL for this repo
+        shell: bash
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER}"
+          repo="${GITHUB_REPOSITORY#*/}"
+          echo "PAGES_SITE=https://${owner}.github.io" >> "$GITHUB_ENV"
+          if [ "$(echo "$repo" | tr '[:upper:]' '[:lower:]')" = "$(echo "$owner" | tr '[:upper:]' '[:lower:]').github.io" ]; then
+            echo "PAGES_BASE=/" >> "$GITHUB_ENV"
+          else
+            echo "PAGES_BASE=/${repo}" >> "$GITHUB_ENV"
+          fi
+
       - name: Build
         uses: withastro/action@v6
         env:

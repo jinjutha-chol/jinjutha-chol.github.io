@@ -10,10 +10,12 @@ import keystatic from '@keystatic/astro'
 const skipKeystatic = process.env.SKIP_KEYSTATIC === 'true'
 
 export default defineConfig({
-  // Served from the project repo's Pages URL:
-  // https://sahatsawatt-a.github.io/XSpring_Dash/
-  site: 'https://sahatsawatt-a.github.io',
-  base: '/XSpring_Dash',
+  // The deploy workflow sets PAGES_SITE / PAGES_BASE from the repo it runs in:
+  //   <owner>.github.io repo -> https://<owner>.github.io/        (base '/')
+  //   any other repo         -> https://<owner>.github.io/<repo>/ (base '/<repo>')
+  // The defaults keep local builds matching the original project repo.
+  site: process.env.PAGES_SITE || 'https://sahatsawatt-a.github.io',
+  base: process.env.PAGES_BASE || '/XSpring_Dash',
 
   output: 'static',
 
