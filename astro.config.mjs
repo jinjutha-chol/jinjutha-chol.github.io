@@ -10,11 +10,11 @@ import keystatic from '@keystatic/astro'
 const skipKeystatic = process.env.SKIP_KEYSTATIC === 'true'
 
 export default defineConfig({
-  // CHANGE ME: the GitHub org/user that owns the <owner>.github.io repo.
-  // Only affects canonical URLs and sitemaps, not asset paths.
-  site: 'https://XSPRING-OWNER.github.io',
+  // Served from the project repo's Pages URL:
+  // https://sahatsawatt-a.github.io/XSpring_Dash/
+  site: 'https://sahatsawatt-a.github.io',
+  base: '/XSpring_Dash',
 
-  // Root-path deploy (<owner>.github.io), so no `base` is needed.
   output: 'static',
 
   integrations: [react(), ...(skipKeystatic ? [] : [keystatic()])],
